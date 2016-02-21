@@ -1,5 +1,5 @@
 {
-  "name": "ncurl",
+  "name": "curl",
   "description": "CLI wrapper around node-libcurl. Have easy curl without installing binaries.",
   "version": "0.5.0",
   "dependencies": {
