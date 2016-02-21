@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+'use strict'
+// const Curl = require('../index').Curl
+//
+// let curl = new Curl();
+//
+// curl.setOpt( 'URL', 'www.google.com' );
+// curl.setOpt( 'FOLLOWLOCATION', true );
+//
+// curl.on( 'end', function( statusCode, body, headers ) {
+//
+//     console.info( statusCode );
+//     console.info( '---' );
+//     console.info( body.length );
+//     console.info( '---' );
+//     console.info( this.getInfo( 'TOTAL_TIME' ) );
+//
+//     this.close();
+// });
+//
+// curl.on( 'error', curl.close.bind( curl ) );
+// curl.perform();
+const optMap = {
+  '-L': 'FOLLOWLOCATION',
+  '--location': 'FOLLOWLOCATION',
+  '-X': 'SOME'
+}
+
+const curlBoolMapList = [
+  'FOLLOWLOCATION'
+]
+
+let argv = process.argv.slice(2)
+let url = argv.pop()
+
+function parseOptions (argv) {
+  let len = argv.length
+  let opts = {}
+  // check for string that begins with '-', '--', a string that follows, that
+  // does not start with option delimiter and is not the url
+  argv.forEach(function (el, index, array) {
+    let key = '', val
+
+    if (!(el[0] === '-' || el[1] === '-')) return
+    if (optMap[el]) key = optMap[el]
+    if (index !== len - 1 && array[index + 1][0] !== '-') val = array[index + 1]
+    if (!val && key && curlBoolMapList.indexOf(key) > - 1) val = true
+
+    key ? opts[key] = val : 0
+  })
+  return opts
+}
+
+
+console.log(argv);
+console.log(url);
+console.log(parseOptions(argv));
