@@ -1,7 +1,7 @@
 {
   "name": "curl",
   "description": "CLI wrapper around node-libcurl. Have easy curl without installing binaries.",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "dependencies": {
     "node-libcurl": "^0.7.0"
   },
