@@ -1,41 +1,19 @@
 #!/usr/bin/env node
 'use strict'
-// const Curl = require('../index').Curl
-//
-// let curl = new Curl();
-//
-// curl.setOpt( 'URL', 'www.google.com' );
-// curl.setOpt( 'FOLLOWLOCATION', true );
-//
-// curl.on( 'end', function( statusCode, body, headers ) {
-//
-//     console.info( statusCode );
-//     console.info( '---' );
-//     console.info( body.length );
-//     console.info( '---' );
-//     console.info( this.getInfo( 'TOTAL_TIME' ) );
-//
-//     this.close();
-// });
-//
-// curl.on( 'error', curl.close.bind( curl ) );
-// curl.perform();
-const optMap = {
-  '-L': 'FOLLOWLOCATION',
-  '--location': 'FOLLOWLOCATION',
-  '-X': 'SOME'
-}
+const Curl = require('node-libcurl').Curl
+let curl = new Curl();
 
-const curlBoolMapList = [
-  'FOLLOWLOCATION'
-]
+const optMap = require('../lib/options').optMap
+const curlBoolMapList = require('../lib/options').curlBoolMapList
 
-let argv = process.argv.slice(2)
-let url = argv.pop()
+const argv = process.argv.slice(2)
 
 function parseOptions (argv) {
+  let url = argv.pop()
+
   let len = argv.length
   let opts = {}
+  opts['URL'] = url
   // check for string that begins with '-', '--', a string that follows, that
   // does not start with option delimiter and is not the url
   argv.forEach(function (el, index, array) {
@@ -48,10 +26,18 @@ function parseOptions (argv) {
 
     key ? opts[key] = val : 0
   })
-  return opts
+
+  for (let key in opts) {
+    curl.setOpt(key, opts[key]);
+  }
 }
 
+parseOptions(argv)
 
-console.log(argv);
-console.log(url);
-console.log(parseOptions(argv));
+curl.on( 'end', function( statusCode, body, headers ) {
+    console.log(body);
+    this.close();
+});
+
+curl.on( 'error', curl.close.bind( curl ) );
+curl.perform();
