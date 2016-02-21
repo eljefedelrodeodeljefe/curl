@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 'use strict'
+// bail early if --help
+const usage = require('../lib/usage').usage
+if (process.argv.length <= 2 || process.argv.indexOf('--help') > - 1) {
+  return usage()
+}
+
 const Curl = require('node-libcurl').Curl
 let curl = new Curl();
 
