@@ -21,6 +21,10 @@
     "standard": "^6.0.7",
     "tape": "^4.4.0"
   },
+  "bin": {
+    "curl": "./bin/curl",
+    "ncurl": "./bin/curl"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:eljefedelrodeodeljefe/curl.git"
