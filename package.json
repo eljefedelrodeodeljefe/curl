@@ -23,7 +23,7 @@
   },
   "bin": {
     "curl": "./bin/curl",
-    "ncurl": "./bin/curl"
+    "curluv": "./bin/curl"
   },
   "repository": {
     "type": "git",
